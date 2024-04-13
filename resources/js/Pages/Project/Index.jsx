@@ -4,12 +4,12 @@ import Pagination from "@/Components/Pagination";
 import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import {
-  PROJECT_STATUS_CLASS_MAP,
-  PROJECT_STATUS_TEXT_MAP,
+    PROJECT_STATUS_CLASS_MAP,
+    PROJECT_STATUS_TEXT_MAP,
 } from "@/constants.jsx";
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
-const Index = ({ auth, projects, queryParams = null,success }) => {
+const Index = ({ auth, projects, queryParams = null, success }) => {
     queryParams = queryParams || {};
     const searchFieldChanged = (name, value) => {
         if (value) {
@@ -56,7 +56,12 @@ const Index = ({ auth, projects, queryParams = null,success }) => {
                     <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                         Projects
                     </h2>
-
+                    <Link
+                        href={route("project.create")}
+                        className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600"
+                    >
+                        Add new
+                    </Link>
                 </div>
             }
         >

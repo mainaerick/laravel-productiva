@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Resources\ProjectResource;
 use App\Http\Resources\TaskResource;
 use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class ProjectController extends Controller
@@ -41,7 +43,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        
+        return inertia("Project/Create");
+
     }
 
     /**
@@ -49,7 +53,18 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        $data = $request->validated();
+        /** @var $image \Illuminate\Http\UploadedFile */
+        $image = $data['image'] ?? null;
+        $data['created_by'] = Auth::id();
+        $data['updated_by'] = Auth::id();
+        if ($image) {
+            $data['image_path'] = $image->store('project/' . Str::random(), 'public');
+        }
+        Project::create($data);
+
+        return to_route('project.index')
+            ->with('success', 'Project was created');
     }
 
     /**
