@@ -7,6 +7,7 @@ import {
   TASK_STATUS_TEXT_MAP,
 } from "@/constants.jsx";
 export default function Show({ auth, task }) {
+  task = task.data
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -15,12 +16,13 @@ export default function Show({ auth, task }) {
           <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {`Task "${task.name}"`}
           </h2>
-          <Link
+
+          {/* <Link
             href={route("task.edit", task.id)}
             className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600"
           >
             Edit
-          </Link>
+          </Link> */}
         </div>
       }
     >
@@ -76,7 +78,7 @@ export default function Show({ auth, task }) {
                   </div>
                   <div className="mt-4">
                     <label className="font-bold text-lg">Created By</label>
-                    <p className="mt-1">{task.createdBy.name}</p>
+                    <p className="mt-1">{task.createdBy?.name}</p>
                   </div>
                 </div>
                 <div>
@@ -90,7 +92,7 @@ export default function Show({ auth, task }) {
                   </div>
                   <div className="mt-4">
                     <label className="font-bold text-lg">Updated By</label>
-                    <p className="mt-1">{task.updatedBy.name}</p>
+                    <p className="mt-1">{task.updatedBy?.name}</p>
                   </div>
                   <div className="mt-4">
                     <label className="font-bold text-lg">Project</label>
