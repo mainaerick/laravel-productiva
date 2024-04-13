@@ -30,9 +30,9 @@ class ProjectController extends Controller
         }
 
         $projects = $query->orderBy($sortField, $sortDirection)->paginate(10)
-        
+
             ->onEachSide(1);
-        return inertia('Project/Index',[
+        return inertia('Project/Index', [
             "projects" => ProjectResource::collection($projects),
             'queryParams' => request()->query() ?: null,
         ]);
@@ -43,7 +43,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        
+
         return inertia("Project/Create");
 
     }
@@ -117,6 +117,13 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $name = $project->name;
+        $image_path = $project->image_path;
+        $project->delete();
+        if ($image_path) {
+            \Illuminate\Support\Facades\Storage::disk('public')->deleteDirectory(dirname($project->image_path));
+        }
+        return to_route('project.index')
+            ->with('success', "Project \"$name\" was deleted");
     }
 }
