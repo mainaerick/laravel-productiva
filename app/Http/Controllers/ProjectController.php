@@ -31,8 +31,8 @@ class ProjectController extends Controller
         }
 
         $projects = $query->orderBy($sortField, $sortDirection)->paginate(10)
-
             ->onEachSide(1);
+            
         return inertia('Project/Index', [
             "projects" => ProjectResource::collection($projects),
             'queryParams' => request()->query() ?: null,
@@ -136,7 +136,7 @@ class ProjectController extends Controller
         $image_path = $project->image_path;
         $project->delete();
         if ($image_path) {
-            \Illuminate\Support\Facades\Storage::disk('public')->deleteDirectory(dirname($project->image_path));
+            Storage::disk('public')->deleteDirectory(dirname($project->image_path));
         }
         return to_route('project.index')
             ->with('success', "Project \"$name\" was deleted");
